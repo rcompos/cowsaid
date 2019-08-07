@@ -1,0 +1,18 @@
+FROM alpine:latest
+
+# Maintainer
+LABEL maintainer="Ron Compos <rcompos@gmail.com>"
+
+# Install dependencies
+RUN apk add fortune
+
+ADD src /src
+
+ADD twd /
+
+# Expose port 8080
+EXPOSE 8080
+
+# Run
+ENTRYPOINT ["/twd"]
+

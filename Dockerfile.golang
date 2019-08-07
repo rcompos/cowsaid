@@ -1,0 +1,29 @@
+FROM golang:1.11-alpine
+
+# Maintainer
+LABEL maintainer="Ron Compos <rcompos@gmail.com>"
+
+# Current Working Directory inside the container
+WORKDIR $GOPATH/src/github.com/rcompos/twd
+
+# Install git for Go
+RUN apk add git fortune
+
+# Copy everything from the current directory to the PWD(Present Working Directory) inside the container
+COPY . .
+
+# Download all the dependencies
+RUN go get -d -v ./...
+
+# Install the package
+RUN go install -v ./...
+
+# Build go binary
+RUN go build twd.go
+
+# Expose port 8080
+EXPOSE 8080
+
+# Run
+ENTRYPOINT ["twd"]
+
