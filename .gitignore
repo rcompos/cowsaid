@@ -17,3 +17,8 @@
 # Misc
 .vscode
 
+# Go
+caas
+go.mod
+go.sum
+

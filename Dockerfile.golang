@@ -4,7 +4,7 @@ FROM golang:1.11-alpine
 LABEL maintainer="Ron Compos <rcompos@gmail.com>"
 
 # Current Working Directory inside the container
-WORKDIR $GOPATH/src/github.com/rcompos/twd
+WORKDIR $GOPATH/src/github.com/rcompos/caas
 
 # Install git for Go
 RUN apk add git fortune
@@ -19,11 +19,11 @@ RUN go get -d -v ./...
 RUN go install -v ./...
 
 # Build go binary
-RUN go build twd.go
+RUN go build caas.go
 
 # Expose port 8080
 EXPOSE 8080
 
 # Run
-ENTRYPOINT ["twd"]
+ENTRYPOINT ["caas"]
 

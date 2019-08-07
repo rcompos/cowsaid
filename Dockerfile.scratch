@@ -5,11 +5,11 @@ LABEL maintainer="Ron Compos <rcompos@gmail.com>"
 
 ADD src /src
 
-ADD twd /
+ADD caas /
 
 # Expose port 8080
 EXPOSE 8080
 
 # Run
-ENTRYPOINT ["/twd"]
+ENTRYPOINT ["/caas"]
 

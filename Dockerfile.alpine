@@ -8,11 +8,11 @@ RUN apk add fortune
 
 ADD src /src
 
-ADD twd /
+ADD caas /
 
 # Expose port 8080
 EXPOSE 8080
 
 # Run
-ENTRYPOINT ["/twd"]
+ENTRYPOINT ["/caas"]
 
