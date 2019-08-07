@@ -3,16 +3,16 @@
 package main
 
 import (
+	"bufio"
+	"bytes"
+	"flag"
 	"fmt"
 	"io"
-	"io/ioutil"
 	"log"
 	"net/http"
 	"os"
 	"os/exec"
-	"regexp"
 	"strconv"
-	"strings"
 	"sync"
 	"time"
 
@@ -35,7 +35,7 @@ var count int
 
 func main() {
 
-	var errFile 
+	var errFile string
 	flag.StringVar(&errFile, "e", "./src/error.txt", "Errors file")
 	flag.Parse()
 
@@ -50,11 +50,6 @@ func main() {
 	}
 	defer logf.Close()
 	log.SetOutput(logf) //log.Println("Test log message")
-
-	cowHist := func(w http.ResponseWriter, r *http.Request) {
-		w.Write([]byte(cowHistogram(histogramView(histTXT))))
-		log.Println(cowHistogram(histogramView(histTXT)))
-	}
 
 	cowSaid := func(w http.ResponseWriter, r *http.Request) {
 		phrase := getFortune()
@@ -83,11 +78,11 @@ func main() {
 		w.Write([]byte(fmt.Sprintf("%d bytes are recieved.\n", n)))
 	}
 
-	viewErr := func(w http.ResponseWriter, r *http.Request) {
-		v := viewErrLines(errLines)
-		s := fmt.Sprintf("%v", v)
-		w.Write([]byte(s))
-	}
+	//viewErr := func(w http.ResponseWriter, r *http.Request) {
+	//	v := viewErrLines(errLines)
+	//	s := fmt.Sprintf("%v", v)
+	//	w.Write([]byte(s))
+	//}
 
 	apiV1 := func(w http.ResponseWriter, r *http.Request) {
 		w.Write([]byte("/api/v1\n"))
@@ -101,13 +96,11 @@ func main() {
 		//w.Write([]byte("/api/v1/new/\n"))
 	}
 
-	http.HandleFunc("/", histView)
+	http.HandleFunc("/", cowSaid)
 	http.HandleFunc("/api", apiV1)
 	http.HandleFunc("/api/", apiV1)
 	http.HandleFunc("/api/v1", apiV1)
 	http.HandleFunc("/api/v1/", apiV1)
-	http.HandleFunc("/api/v1/cowhist", cowHist)
-	http.HandleFunc("/api/v1/cowhist/", cowHist)
 	http.HandleFunc("/api/v1/cowsay", cowSaid)
 	http.HandleFunc("/api/v1/cowsay/", cowSaid)
 	http.HandleFunc("/api/v1/info", info)
@@ -116,8 +109,8 @@ func main() {
 	http.HandleFunc("/api/v1/ping/", ping)
 	http.HandleFunc("/api/v1/count", counter)
 	http.HandleFunc("/api/v1/count/", counter)
-	http.HandleFunc("/api/v1/err", viewErr)
-	http.HandleFunc("/api/v1/err/", viewErr)
+	//http.HandleFunc("/api/v1/err", viewErr)
+	//http.HandleFunc("/api/v1/err/", viewErr)
 	http.HandleFunc("/api/v1/upload", uploader)
 	http.HandleFunc("/api/v1/upload/", uploader)
 	//http.Handle("/src/", http.StripPrefix("/src/", fs))
