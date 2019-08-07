@@ -5,7 +5,7 @@ package main
 import (
 	"bufio"
 	"bytes"
-	"flag"
+	//"flag"
 	"fmt"
 	"io"
 	"log"
@@ -35,14 +35,15 @@ var count int
 
 func main() {
 
-	var errFile string
-	flag.StringVar(&errFile, "e", "./src/error.txt", "Errors file")
-	flag.Parse()
+	//var errFile string
+	//flag.StringVar(&errFile, "e", "./src/error.txt", "Errors file")
+	//flag.Parse()
 
 	// Create log file
 	logFileDateFormat := "2006-01-02-150405"
 	logStamp := time.Now().Format(logFileDateFormat)
-	logfile := "./src/caas-log-" + string(logStamp) + ".out"
+	//logfile := "./src/caas-log-" + string(logStamp) + ".out"
+	logfile := "/tmp/caas-log-" + string(logStamp) + ".out"
 
 	logf, err := os.OpenFile(logfile, os.O_WRONLY|os.O_CREATE|os.O_APPEND, 0664)
 	if err != nil {

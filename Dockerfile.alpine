@@ -6,7 +6,7 @@ LABEL maintainer="Ron Compos <rcompos@gmail.com>"
 # Install dependencies
 RUN apk add fortune
 
-ADD src /src
+#ADD src /src
 
 ADD caas /
 
