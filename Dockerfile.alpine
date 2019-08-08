@@ -10,8 +10,8 @@ RUN apk add fortune
 
 ADD caas /
 
-# Expose port 8080
-EXPOSE 8080
+# Expose port 80
+EXPOSE 80
 
 # Run
 ENTRYPOINT ["/caas"]

@@ -64,6 +64,7 @@ func main() {
 		}
 		//fmt.Println(say)
 		w.Write([]byte(say))
+		w.Write([]byte("\n"))
 	}
 
 	uploader := func(w http.ResponseWriter, r *http.Request) {
@@ -123,7 +124,8 @@ func main() {
 	http.Handle("/files/", http.StripPrefix("/files", httpfs))
 	log.Print("API endpoints /api/v1/upload/ for uploading and /files/ for downloading.")
 
-	httpCAAS := "localhost:8080"
+	//httpCAAS := "localhost:8080"
+	httpCAAS := ":80"
 	listenMsg := "Listening on " + httpCAAS + " ..."
 	fmt.Println(listenMsg)
 	log.Println(listenMsg)
@@ -200,19 +202,6 @@ func counter(w http.ResponseWriter, r *http.Request) {
 func ping(w http.ResponseWriter, r *http.Request) {
 	w.Write([]byte("pong"))
 	log.Println("pong")
-}
-
-func cowHistogram(hist []byte) string {
-	say, err := cowsay.Say(
-		cowsay.Phrase(string(hist)),
-		cowsay.Type("default"),
-		cowsay.BallonWidth(cowsayBalloonWidth),
-	)
-	if err != nil {
-		log.Println(err)
-	}
-	//fmt.Println(say)
-	return say
 }
 
 func readInFile(i string) []string {
