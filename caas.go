@@ -5,6 +5,8 @@ package main
 import (
 	"bufio"
 	"bytes"
+	"strings"
+
 	//"flag"
 	"fmt"
 	"io"
@@ -26,7 +28,7 @@ const (
 	// logFileDateFormat for log files
 	logFileDateFormat = "2006-01-02-150405"
 	// histScale scales the histogram bars
-	// cowsayBalloonWidtch
+	// cowsayBalloonWidth
 	cowsayBalloonWidth = 80
 )
 
@@ -54,10 +56,13 @@ func main() {
 
 	cowSaid := func(w http.ResponseWriter, r *http.Request) {
 		phrase := getFortune()
+		fmt.Printf("phrase:\n'%v'\n", phrase)
+		fmt.Printf("BalloonWidth:\n%v", cowsayBalloonWidth)
 		say, err := cowsay.Say(
 			cowsay.Phrase(phrase),
+			//cowsay.Phrase("Hello from the cow!\nHello again."),
 			cowsay.Type("default"),
-			cowsay.BallonWidth(cowsayBalloonWidth),
+			//cowsay.BallonWidth(cowsayBalloonWidth),
 		)
 		if err != nil {
 			log.Println(err)
@@ -145,8 +150,11 @@ func getFortune() string {
 	}
 	//outStr, errStr := string(stdout.Bytes()), string(stderr.Bytes())
 	//fmt.Printf("out:\n%s\nerr:\n%s\n", outStr, errStr)
-	outStr := string(stdout.Bytes())
-	fmt.Printf("out:\n%s\n", outStr)
+	//outStr := string(stdout.Bytes())
+	tmpStr := string(stdout.Bytes())
+	outStr := fmt.Sprintf(strings.TrimSpace(tmpStr))
+	//fmt.Printf("out:\n%s\n", outStr)
+	fmt.Printf("out:\n%s", outStr)
 
 	mu.Lock()
 	count++
@@ -192,9 +200,9 @@ func info(w http.ResponseWriter, r *http.Request) {
 
 // counter displays the page count
 func counter(w http.ResponseWriter, r *http.Request) {
-	mu.Lock()
-	count++
-	mu.Unlock()
+	//mu.Lock()
+	//count++
+	//mu.Unlock()
 	fmt.Fprintf(w, "Count %d\n", count)
 	log.Printf("Count %d\n", count)
 }
