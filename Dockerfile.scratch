@@ -3,7 +3,8 @@ FROM scratch
 # Maintainer
 LABEL maintainer="Ron Compos <rcompos@gmail.com>"
 
-ADD src /src
+# Copy alternate fortunes
+COPY fortunes-caas /usr/share/
 
 ADD caas /
 

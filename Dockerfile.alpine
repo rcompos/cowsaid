@@ -6,9 +6,8 @@ LABEL maintainer="Ron Compos <rcompos@gmail.com>"
 # Install dependencies
 RUN apk add fortune
 
-#ADD src /src
-
-ADD caas /
+# Copy alternate fortunes
+COPY fortunes-caas /usr/share/
 
 # Expose port 80
 EXPOSE 80

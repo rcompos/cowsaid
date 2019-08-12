@@ -5,16 +5,15 @@ package main
 import (
 	"bufio"
 	"bytes"
-	"strings"
-
-	//"flag"
+	"flag"
 	"fmt"
-	"io"
+	"html"
 	"log"
 	"net/http"
 	"os"
 	"os/exec"
 	"strconv"
+	"strings"
 	"sync"
 	"time"
 
@@ -27,9 +26,10 @@ const (
 	dateFormat = "Mon Jan _2 2006"
 	// logFileDateFormat for log files
 	logFileDateFormat = "2006-01-02-150405"
-	// histScale scales the histogram bars
 	// cowsayBalloonWidth
 	cowsayBalloonWidth = 80
+	fortuneCaasDir     = "/usr/share/fortunes-caas"
+	altDefault         = "alt"
 )
 
 var mu sync.Mutex
@@ -40,6 +40,9 @@ func main() {
 	//var errFile string
 	//flag.StringVar(&errFile, "e", "./src/error.txt", "Errors file")
 	//flag.Parse()
+	var dirAlt string
+	flag.StringVar(&dirAlt, "f", fortuneCaasDir, "Alternate fortune directory")
+	flag.Parse()
 
 	// Create log file
 	logFileDateFormat := "2006-01-02-150405"
@@ -55,35 +58,54 @@ func main() {
 	log.SetOutput(logf) //log.Println("Test log message")
 
 	cowSaid := func(w http.ResponseWriter, r *http.Request) {
-		phrase := getFortune()
-		fmt.Printf("phrase:\n'%v'\n", phrase)
-		fmt.Printf("BalloonWidth:\n%v", cowsayBalloonWidth)
+		//fmt.Fprintf(w, "URL.Path: %q", html.EscapeString(r.URL.Path))
+		//fmt.Printf("URL.Path: %q", html.EscapeString(r.URL.Path))
+		urlPath := html.EscapeString(r.URL.Path)
+		fmt.Printf("URL.Path: %q", urlPath)
+		phrase := getFortune("")
 		say, err := cowsay.Say(
 			cowsay.Phrase(phrase),
-			//cowsay.Phrase("Hello from the cow!\nHello again."),
 			cowsay.Type("default"),
-			//cowsay.BallonWidth(cowsayBalloonWidth),
 		)
 		if err != nil {
 			log.Println(err)
 		}
-		//fmt.Println(say)
 		w.Write([]byte(say))
 		w.Write([]byte("\n"))
 	}
 
-	uploader := func(w http.ResponseWriter, r *http.Request) {
-		//w.Write([]byte("UPLOAD TESt"))
-		file, err := os.Create("./src/uploaded")
-		if err != nil {
-			panic(err)
+	/*
+		cowAlt := func(w http.ResponseWriter, r *http.Request) {
+			name := r.URL.Query().Get("s")
+			fmt.Printf("name: %v\n", name)
+			if name == "" {
+				name = altDefault
+			}
+			phrase := getFortune(dirAlt + "/" + name)
+			say, err := cowsay.Say(
+				cowsay.Phrase(phrase),
+				cowsay.Type("default"),
+			)
+			if err != nil {
+				log.Println(err)
+			}
+			w.Write([]byte(say))
+			w.Write([]byte("\n"))
 		}
-		n, err := io.Copy(file, r.Body)
-		if err != nil {
-			panic(err)
-		}
-		w.Write([]byte(fmt.Sprintf("%d bytes are recieved.\n", n)))
-	}
+	*/
+
+	//uploader := func(w http.ResponseWriter, r *http.Request) {
+	//	//w.Write([]byte("UPLOAD TESt"))
+	//	file, err := os.Create("./src/uploaded")
+	//	if err != nil {
+	//		panic(err)
+	//	}
+	//	n, err := io.Copy(file, r.Body)
+	//	if err != nil {
+	//		panic(err)
+	//	}
+	//	w.Write([]byte(fmt.Sprintf("%d bytes are recieved.\n", n)))
+	//}
 
 	//viewErr := func(w http.ResponseWriter, r *http.Request) {
 	//	v := viewErrLines(errLines)
@@ -99,6 +121,7 @@ func main() {
 		w.Write([]byte("/api/v1/bad\n"))
 		w.Write([]byte("/api/v1/err\n"))
 		w.Write([]byte("/api/v1/count\n"))
+		//w.Write([]byte("/s\n"))
 		//w.Write([]byte("/api/v1/raw/\n"))
 		//w.Write([]byte("/api/v1/new/\n"))
 	}
@@ -118,28 +141,30 @@ func main() {
 	http.HandleFunc("/api/v1/count/", counter)
 	//http.HandleFunc("/api/v1/err", viewErr)
 	//http.HandleFunc("/api/v1/err/", viewErr)
-	http.HandleFunc("/api/v1/upload", uploader)
-	http.HandleFunc("/api/v1/upload/", uploader)
+	//http.HandleFunc("/api/v1/upload", uploader)
+	//http.HandleFunc("/api/v1/upload/", uploader)
+	//http.HandleFunc("/", cowAlt)
+	//http.HandleFunc("/s/", cowAlt)
 	//http.Handle("/src/", http.StripPrefix("/src/", fs))
 
 	// File server for upload and download
 	//maxUploadSize := 2 * 1024 // 2 MB
-	uploadPath := "./src"
-	httpfs := http.FileServer(http.Dir(uploadPath))
-	http.Handle("/files/", http.StripPrefix("/files", httpfs))
-	log.Print("API endpoints /api/v1/upload/ for uploading and /files/ for downloading.")
+	////httpfs := http.FileServer(http.Dir(uploadPath))
+	//uploadPath := "./src"
+	//http.Handle("/files/", http.StripPrefix("/files", httpfs))
+	//log.Print("API endpoints /api/v1/upload/ for uploading and /files/ for downloading.")
 
 	//httpCAAS := "localhost:8080"
 	httpCAAS := ":80"
 	listenMsg := "Listening on " + httpCAAS + " ..."
 	fmt.Println(listenMsg)
-	log.Println(listenMsg)
+	//log.Println(listenMsg)
 	log.Fatal(http.ListenAndServe(httpCAAS, nil))
 
 } // end main
 
-func getFortune() string {
-	cmd := exec.Command("fortune")
+func getFortune(f string) string {
+	cmd := exec.Command("fortune", f)
 	//var stdout, stderr bytes.Buffer
 	var stdout bytes.Buffer
 	cmd.Stdout = &stdout
@@ -163,11 +188,11 @@ func getFortune() string {
 	return outStr
 }
 
-func uploadFile(f string) string {
-	fmt.Println("file: ", f)
-	log.Println("Upload attempt")
-	return f
-}
+//func uploadFile(f string) string {
+//	fmt.Println("file: ", f)
+//	log.Println("Upload attempt")
+//	return f
+//}
 
 func viewErrLines(errLines map[int]error) []string {
 	var flatBadLine []string
@@ -204,12 +229,12 @@ func counter(w http.ResponseWriter, r *http.Request) {
 	//count++
 	//mu.Unlock()
 	fmt.Fprintf(w, "Count %d\n", count)
-	log.Printf("Count %d\n", count)
+	//log.Printf("Count %d\n", count)
 }
 
 func ping(w http.ResponseWriter, r *http.Request) {
 	w.Write([]byte("pong"))
-	log.Println("pong")
+	//log.Println("pong")
 }
 
 func readInFile(i string) []string {
