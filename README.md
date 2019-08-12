@@ -22,8 +22,7 @@ Cowsay as a service.
 
 To get CAAS running with minimal effort run the DockerHub image. 
 
-        $ mkdir ~/local
-        $ docker run -it --rm -v ~/local:/src -p 80:80 rcompos/caas
+        $ docker run -it --rm -p 80:80 rcompos/caas
 
 ## Installation ##
 
@@ -92,7 +91,7 @@ To run CAAS as a Docker container, follow these steps to build the image.
 
         $ docker build -t caas .
 
-3. __Run the newly built image.  The number of buckets can be specified with the -n argument.  Substitute _~/local_ with your local storage directory.  Copy input data file to _in.txt_ __
+3. __Run the newly built image.__
 
         $ docker run -it --rm -p 80:80 caas
 
