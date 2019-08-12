@@ -23,7 +23,7 @@ Cowsay as a service.
 To get CAAS running with minimal effort run the DockerHub image. 
 
         $ mkdir ~/local
-        $ docker run -it --rm -v ~/local:/src -p 8080:8080 rcompos/caas-alpine
+        $ docker run -it --rm -v ~/local:/src -p 80:80 rcompos/caas
 
 ## Installation ##
 
@@ -94,20 +94,16 @@ To run CAAS as a Docker container, follow these steps to build the image.
 
 3. __Run the newly built image.  The number of buckets can be specified with the -n argument.  Substitute _~/local_ with your local storage directory.  Copy input data file to _in.txt_ __
 
-        $ mkdir ~/local
-        $ cp path/to/histogram_data ~/local/in.txt
-        $ docker run -it --rm -v ~/local:/go/src/github.com/rcompos/caas/src -p 8080:8080 caas -n 10
+        $ docker run -it --rm -p 80:80 caas
 
 
 ### Run DockerHub Image ###
 
 The CAAS application can be run as a pre-built DockerHub image.  Note this image is a compact image built from Alpine Linux base image.
 
-1. __Run application as Docker container. Substitute _~/local_ with your local storage directory.  Copy input data file to _in.txt_ __
+1. __Run application as Docker container.__
 
-        $ mkdir ~/local
-        $ cp path/to/histogram_data ~/local/in.txt
-        $ docker run -it --rm -v ~/local:/src -p 8080:8080 rcompos/caas-alpine
+        $ docker run -it --rm -p 80:80 rcompos/caas-alpine
 
 
 ## Usage ##
@@ -117,7 +113,7 @@ The CAAS application can be run as a pre-built DockerHub image.  Note this image
 
 Once you have the CAAS application running as a service, you can In your web browser, enter the following URL:
 
-        http://localhost:8080
+        http://localhost:80
 
 2. API Endpoints
 
@@ -138,7 +134,7 @@ The following API endpoints are available:
 
 View the input, output and log files.
 
-        http://localhost:8080
+        http://localhost:80
 
 After the service is running, output and log files are created.
 
