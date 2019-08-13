@@ -57,17 +57,10 @@ To run CAAS as a Go executable, follow these steps to build the binary.  Note th
 
 3. __Run the newly built Go binary.__
 
-        $ ./caas -i path/input-file
+        $ ./caas
 
 4. __Command-line options__
 
-```
-Usage of caas:
-  -e string
-    	Errors file (default "./src/error.txt")
-  -i string
-    	Input file (default "./src/in.txt")
-```
 
 
 ### Build Docker Image ###
@@ -102,7 +95,7 @@ The CAAS application can be run as a pre-built DockerHub image.  Note this image
 
 1. __Run application as Docker container.__
 
-        $ docker run -it --rm -p 80:80 rcompos/caas-alpine
+        $ docker run -it --rm -p 80:80 rcompos/caas
 
 
 ## Usage ##
