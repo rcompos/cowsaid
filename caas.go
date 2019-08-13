@@ -29,7 +29,7 @@ const (
 	// cowsayBalloonWidth
 	cowsayBalloonWidth = 80
 	fortuneCaasDir     = "/usr/share/fortunes-caas"
-	altDefault         = "alt"
+	altDefault         = "/alt"
 )
 
 var mu sync.Mutex
@@ -58,10 +58,6 @@ func main() {
 	log.SetOutput(logf) //log.Println("Test log message")
 
 	cowSaid := func(w http.ResponseWriter, r *http.Request) {
-		//fmt.Fprintf(w, "URL.Path: %q", html.EscapeString(r.URL.Path))
-		//fmt.Printf("URL.Path: %q", html.EscapeString(r.URL.Path))
-		urlPath := html.EscapeString(r.URL.Path)
-		fmt.Printf("URL.Path: %q", urlPath)
 		phrase := getFortune("")
 		say, err := cowsay.Say(
 			cowsay.Phrase(phrase),
@@ -74,25 +70,30 @@ func main() {
 		w.Write([]byte("\n"))
 	}
 
-	/*
-		cowAlt := func(w http.ResponseWriter, r *http.Request) {
-			name := r.URL.Query().Get("s")
-			fmt.Printf("name: %v\n", name)
-			if name == "" {
-				name = altDefault
-			}
-			phrase := getFortune(dirAlt + "/" + name)
-			say, err := cowsay.Say(
-				cowsay.Phrase(phrase),
-				cowsay.Type("default"),
-			)
-			if err != nil {
-				log.Println(err)
-			}
-			w.Write([]byte(say))
-			w.Write([]byte("\n"))
+	cowAlt := func(w http.ResponseWriter, r *http.Request) {
+		// URL Path /s
+		// Example: http://localhost:80/?s=8ball
+		//name := r.URL.Query().Get("s")
+		//fmt.Printf("name: %v\n", name)
+		urlPath := html.EscapeString(r.URL.Path)
+		dirPath := strings.TrimPrefix(urlPath, "/s")
+		if dirPath == "" {
+			dirPath = altDefault
 		}
-	*/
+		phrase := getFortune(dirAlt + dirPath)
+		if phrase == "" {
+			phrase = "404 Phrase Not Found"
+		}
+		say, err := cowsay.Say(
+			cowsay.Phrase(phrase),
+			cowsay.Type("default"),
+		)
+		if err != nil {
+			log.Println(err)
+		}
+		w.Write([]byte(say))
+		w.Write([]byte("\n"))
+	}
 
 	//uploader := func(w http.ResponseWriter, r *http.Request) {
 	//	//w.Write([]byte("UPLOAD TESt"))
@@ -121,7 +122,7 @@ func main() {
 		w.Write([]byte("/api/v1/bad\n"))
 		w.Write([]byte("/api/v1/err\n"))
 		w.Write([]byte("/api/v1/count\n"))
-		//w.Write([]byte("/s\n"))
+		w.Write([]byte("/s/8ball\n"))
 		//w.Write([]byte("/api/v1/raw/\n"))
 		//w.Write([]byte("/api/v1/new/\n"))
 	}
@@ -143,8 +144,8 @@ func main() {
 	//http.HandleFunc("/api/v1/err/", viewErr)
 	//http.HandleFunc("/api/v1/upload", uploader)
 	//http.HandleFunc("/api/v1/upload/", uploader)
-	//http.HandleFunc("/", cowAlt)
-	//http.HandleFunc("/s/", cowAlt)
+	http.HandleFunc("/s", cowAlt)
+	http.HandleFunc("/s/", cowAlt)
 	//http.Handle("/src/", http.StripPrefix("/src/", fs))
 
 	// File server for upload and download
