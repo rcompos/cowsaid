@@ -1,6 +1,6 @@
 # Cowsayer
 
-Cowsayer is an application to display cowsay as a service (Cowsayer).
+Cowsayer is an application to display cowsay as a service (CAAS).
 
 ```
    ~~~~~~~~~~~~~~~~~~~~~~~
@@ -15,7 +15,7 @@ Cowsayer is an application to display cowsay as a service (Cowsayer).
 
 ## Description ##
 
-Cowsayer is a web service to Cowsay as a service.
+Cowsayer is a web service to provide Cowsay as a service.
 
 
 ## TLDR ##
