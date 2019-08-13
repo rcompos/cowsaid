@@ -1,13 +1,13 @@
-FROM alpine:latest
+FROM centos:latest
 
 # Maintainer
 LABEL maintainer="Ron Compos <rcompos@gmail.com>"
 
 # Install dependencies
-RUN apk add fortune
+RUN yum install -y fortune
 
 # Copy alternate fortunes
-COPY caas /usr/bin
+COPY caas /
 COPY fortunes-caas /usr/share/fortunes-caas
 
 # Generate fortune dat files
@@ -17,5 +17,5 @@ RUN cd /usr/share/fortunes-caas; for f in `find . -type d | grep -v '^.$'`; do e
 EXPOSE 80
 
 # Run
-ENTRYPOINT ["/usr/bin/caas"]
+ENTRYPOINT ["/caas"]
 

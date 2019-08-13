@@ -3,13 +3,17 @@ FROM scratch
 # Maintainer
 LABEL maintainer="Ron Compos <rcompos@gmail.com>"
 
+# Copy executable
+COPY caas /
+
 # Copy alternate fortunes
-COPY fortunes-caas /usr/share/
+COPY fortunes-caas /usr/share/fortunes-caas
 
-ADD caas /
+# Generate fortune dat files
+RUN cd /usr/share/fortunes-caas; for f in `find . -type d | grep -v '^.$'`; do echo $f; strfile $f/$f $f/$f.dat; done
 
-# Expose port 8080
-EXPOSE 8080
+# Expose port
+EXPOSE 80
 
 # Run
 ENTRYPOINT ["/caas"]

@@ -13,7 +13,10 @@ RUN apk add git fortune
 COPY . .
 
 # Copy alternate fortunes
-COPY fortunes-caas /usr/share/
+COPY fortunes-caas /usr/share/fortunes-caas
+
+# Generate fortune dat files
+RUN cd /usr/share/fortunes-caas; for f in `find . -type d | grep -v '^.$'`; do echo $f; strfile $f/$f $f/$f.dat; done
 
 # Download all the dependencies
 RUN go get -d -v ./...
@@ -24,8 +27,8 @@ RUN go install -v ./...
 # Build go binary
 RUN go build caas.go
 
-# Expose port 8080
-EXPOSE 8080
+# Expose port
+EXPOSE 80
 
 # Run
 ENTRYPOINT ["caas"]
