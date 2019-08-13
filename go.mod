@@ -1,4 +1,4 @@
-module cowsayer
+module cowsaid
 
 go 1.12
 

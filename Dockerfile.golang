@@ -4,7 +4,7 @@ FROM golang:1.11-alpine
 LABEL maintainer="Ron Compos <rcompos@gmail.com>"
 
 # Current Working Directory inside the container
-WORKDIR $GOPATH/src/github.com/rcompos/cowsayer
+WORKDIR $GOPATH/src/github.com/rcompos/cowsaid
 
 # Install git for Go
 RUN apk add git fortune
@@ -25,11 +25,11 @@ RUN go get -d -v ./...
 RUN go install -v ./...
 
 # Build go binary
-RUN go build cowsayer.go
+RUN go build cowsaid.go
 
 # Expose port
 EXPOSE 80
 
 # Run
-ENTRYPOINT ["cowsayer"]
+ENTRYPOINT ["cowsaid"]
 

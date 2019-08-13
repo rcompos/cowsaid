@@ -4,7 +4,7 @@ FROM scratch
 LABEL maintainer="Ron Compos <rcompos@gmail.com>"
 
 # Copy executable
-COPY cowsayer /
+COPY cowsaid /
 
 # Copy alternate fortunes
 COPY fortunes-alt /usr/share/fortunes-alt
@@ -16,5 +16,5 @@ RUN cd /usr/share/fortunes-alt; for f in `find . -type d | grep -v '^.$'`; do ec
 EXPOSE 80
 
 # Run
-ENTRYPOINT ["/cowsayer"]
+ENTRYPOINT ["/cowsaid"]
 

@@ -7,7 +7,7 @@ LABEL maintainer="Ron Compos <rcompos@gmail.com>"
 RUN yum install -y fortune
 
 # Copy alternate fortunes
-COPY cowsayer /
+COPY cowsaid /
 COPY fortunes-alt /usr/share/fortunes-alt
 
 # Generate fortune dat files
@@ -17,5 +17,5 @@ RUN cd /usr/share/fortunes-alt; for f in `find . -type d | grep -v '^.$'`; do ec
 EXPOSE 80
 
 # Run
-ENTRYPOINT ["/cowsayer"]
+ENTRYPOINT ["/cowsaid"]
 
