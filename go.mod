@@ -1,4 +1,4 @@
-module caas
+module cowsayer
 
 go 1.12
 

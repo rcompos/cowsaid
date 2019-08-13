@@ -7,15 +7,15 @@ LABEL maintainer="Ron Compos <rcompos@gmail.com>"
 RUN yum install -y fortune
 
 # Copy alternate fortunes
-COPY caas /
-COPY fortunes-caas /usr/share/fortunes-caas
+COPY cowsayer /
+COPY fortunes-alt /usr/share/fortunes-alt
 
 # Generate fortune dat files
-RUN cd /usr/share/fortunes-caas; for f in `find . -type d | grep -v '^.$'`; do echo $f; strfile $f/$f $f/$f.dat; done
+RUN cd /usr/share/fortunes-alt; for f in `find . -type d | grep -v '^.$'`; do echo $f; strfile $f/$f $f/$f.dat; done
 
 # Expose port 80
 EXPOSE 80
 
 # Run
-ENTRYPOINT ["/caas"]
+ENTRYPOINT ["/cowsayer"]
 

@@ -4,17 +4,17 @@ FROM scratch
 LABEL maintainer="Ron Compos <rcompos@gmail.com>"
 
 # Copy executable
-COPY caas /
+COPY cowsayer /
 
 # Copy alternate fortunes
-COPY fortunes-caas /usr/share/fortunes-caas
+COPY fortunes-alt /usr/share/fortunes-alt
 
 # Generate fortune dat files
-RUN cd /usr/share/fortunes-caas; for f in `find . -type d | grep -v '^.$'`; do echo $f; strfile $f/$f $f/$f.dat; done
+RUN cd /usr/share/fortunes-alt; for f in `find . -type d | grep -v '^.$'`; do echo $f; strfile $f/$f $f/$f.dat; done
 
 # Expose port
 EXPOSE 80
 
 # Run
-ENTRYPOINT ["/caas"]
+ENTRYPOINT ["/cowsayer"]
 

@@ -1,4 +1,4 @@
-// caas  Cowsay As A Service
+// Cowsayer  -  Cowsay As A Service
 
 package main
 
@@ -28,7 +28,7 @@ const (
 	logFileDateFormat = "2006-01-02-150405"
 	// cowsayBalloonWidth
 	cowsayBalloonWidth = 80
-	fortuneCaasDir     = "/usr/share/fortunes-caas"
+	fortuneAltDir     = "/usr/share/fortunes-alt"
 	altDefault         = "/alt"
 )
 
@@ -41,14 +41,14 @@ func main() {
 	//flag.StringVar(&errFile, "e", "./src/error.txt", "Errors file")
 	//flag.Parse()
 	var dirAlt string
-	flag.StringVar(&dirAlt, "f", fortuneCaasDir, "Alternate fortune directory")
+	flag.StringVar(&dirAlt, "f", fortuneAltDir, "Alternate fortune directory")
 	flag.Parse()
 
 	// Create log file
 	logFileDateFormat := "2006-01-02-150405"
 	logStamp := time.Now().Format(logFileDateFormat)
-	//logfile := "./src/caas-log-" + string(logStamp) + ".out"
-	logfile := "/tmp/caas-log-" + string(logStamp) + ".out"
+	//logfile := "./src/cowsayer-log-" + string(logStamp) + ".out"
+	logfile := "/tmp/cowsayer-log-" + string(logStamp) + ".out"
 
 	logf, err := os.OpenFile(logfile, os.O_WRONLY|os.O_CREATE|os.O_APPEND, 0664)
 	if err != nil {
@@ -155,12 +155,12 @@ func main() {
 	//http.Handle("/files/", http.StripPrefix("/files", httpfs))
 	//log.Print("API endpoints /api/v1/upload/ for uploading and /files/ for downloading.")
 
-	//httpCAAS := "localhost:8080"
-	httpCAAS := ":80"
-	listenMsg := "Listening on " + httpCAAS + " ..."
+	//httpCowsayer := "localhost:8080"
+	httpCowsayer := ":80"
+	listenMsg := "Listening on " + httpCowsayer + " ..."
 	fmt.Println(listenMsg)
 	//log.Println(listenMsg)
-	log.Fatal(http.ListenAndServe(httpCAAS, nil))
+	log.Fatal(http.ListenAndServe(httpCowsayer, nil))
 
 } // end main
 

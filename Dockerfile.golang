@@ -4,7 +4,7 @@ FROM golang:1.11-alpine
 LABEL maintainer="Ron Compos <rcompos@gmail.com>"
 
 # Current Working Directory inside the container
-WORKDIR $GOPATH/src/github.com/rcompos/caas
+WORKDIR $GOPATH/src/github.com/rcompos/cowsayer
 
 # Install git for Go
 RUN apk add git fortune
@@ -13,10 +13,10 @@ RUN apk add git fortune
 COPY . .
 
 # Copy alternate fortunes
-COPY fortunes-caas /usr/share/fortunes-caas
+COPY fortunes-alt /usr/share/fortunes-alt
 
 # Generate fortune dat files
-RUN cd /usr/share/fortunes-caas; for f in `find . -type d | grep -v '^.$'`; do echo $f; strfile $f/$f $f/$f.dat; done
+RUN cd /usr/share/fortunes-alt; for f in `find . -type d | grep -v '^.$'`; do echo $f; strfile $f/$f $f/$f.dat; done
 
 # Download all the dependencies
 RUN go get -d -v ./...
@@ -25,11 +25,11 @@ RUN go get -d -v ./...
 RUN go install -v ./...
 
 # Build go binary
-RUN go build caas.go
+RUN go build cowsayer.go
 
 # Expose port
 EXPOSE 80
 
 # Run
-ENTRYPOINT ["caas"]
+ENTRYPOINT ["cowsayer"]
 
