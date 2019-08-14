@@ -43,7 +43,7 @@ CentOS: yum install fortune
 
 * Environemntally variable: export GO111MODULE=on
 
-To run Cowsaid as a Go executable, follow these steps to build the binary.  Note that the default dataset is 4082 lines.
+To run Cowsaid as a Go executable, follow these steps to build the binary.
 
 1. __Change to the cowsaid directory.__
 
