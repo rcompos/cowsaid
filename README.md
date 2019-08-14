@@ -101,7 +101,7 @@ The Cowsaid application can be run as a pre-built DockerHub image.  Note this im
 ## Usage ##
 
 
-1. View Histogram
+1. View Cowsay Message
 
 Once you have the Cowsaid application running as a service, you can In your web browser, enter the following URL:
 
