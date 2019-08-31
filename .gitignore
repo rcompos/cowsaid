@@ -12,14 +12,14 @@
 *.out
 
 # Log files
-src/cowsayer-log*
+src/cowsaid-log*
 src/log.txt
 
 # Misc
 .vscode
 
 # Go
-cowsayer
+cowsaid
 go.mod
 go.sum
 
