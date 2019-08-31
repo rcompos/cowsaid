@@ -8,7 +8,7 @@ TL;DR;
 ------
 
 ```console
-$ helm install --name cowsaid -r https://github.com/rcompos/cowsaid/cowsaid-helm
+$ helm install -n cowsaid --namespace cowsaid ./cowsaid-helm
 ```
 
 Introduction
