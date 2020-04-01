@@ -20,9 +20,9 @@ Cowsaid is a web service to provide Cowsay as a service.
 
 ## TLDR ##
 
-To get Cowsaid running with minimal effort run the DockerHub image. 
+To get Cowsaid running with minimal effort run the DockerHub image.  View at http://localhost:8080.
 
-        $ docker run -it --rm -p 80:80 rcompos/cowsaid
+        $ docker run -it --rm -p 8080:80 rcompos/cowsaid
 
 ## Installation ##
 
@@ -53,7 +53,7 @@ To run Cowsaid as a Go executable, follow these steps to build the binary.
 
 2. __Build the application binary.__
 
-        $ go build
+        $ GO111MODULE=on go build
 
 3. __Run the newly built Go binary.__
 
@@ -86,7 +86,7 @@ To run Cowsaid as a Docker container, follow these steps to build the image.
 
 3. __Run the newly built image.__
 
-        $ docker run -it --rm -p 80:80 cowsaid
+        $ docker run -it --rm -p 8080:80 cowsaid
 
 
 ### Run DockerHub Image ###
@@ -95,7 +95,7 @@ The Cowsaid application can be run as a pre-built DockerHub image.  Note this im
 
 1. __Run application as Docker container.__
 
-        $ docker run -it --rm -p 80:80 rcompos/cowsaid
+        $ docker run -it --rm -p 8080:80 rcompos/cowsaid
 
 
 ## Usage ##
@@ -105,7 +105,7 @@ The Cowsaid application can be run as a pre-built DockerHub image.  Note this im
 
 Once you have the Cowsaid application running as a service, you can In your web browser, enter the following URL:
 
-        http://localhost:80
+        http://localhost:8080
 
 2. API Endpoints
 
@@ -126,7 +126,7 @@ The following API endpoints are available:
 
 View the input, output and log files.
 
-        http://localhost:80
+        http://localhost:8080
 
 After the service is running, output and log files are created.
 
@@ -137,4 +137,4 @@ error.txt
 Notes:
 If building Go binary, the following produces a small images well-suited for containerization.  Substitute hardware architecture for GOOS (i.e. darwin, linux, etc).
 
-	$ CGO_ENABLED=0 GOOS=darwin go build -a -installsuffix cgo -o cowsaid .
+	$ GO111MODULE=on CGO_ENABLED=0 GOOS=darwin go build -a -installsuffix cgo -o cowsaid .

@@ -1,21 +1,14 @@
+FROM golang:1.13 as build
+WORKDIR /build
+COPY . .
+RUN GO111MODULE=on GOOS=linux GOARCH=amd64 CGO_ENABLED=0 go build -o cowsaid ./cowsaid.go
+
 FROM alpine:latest
-
-# Maintainer
 LABEL maintainer="Ron Compos <rcompos@gmail.com>"
-
-# Install dependencies
+COPY --from=build /build/cowsaid /bin
 RUN apk add fortune
-
-# Copy alternate fortunes
-COPY cowsaid /usr/bin
 COPY fortunes-alt /usr/share/fortunes-alt
-
-# Generate fortune dat files
 RUN cd /usr/share/fortunes-alt; for f in `find . -type d | grep -v '^.$'`; do echo $f; strfile $f/$f $f/$f.dat; done
-
-# Expose port 80
 EXPOSE 80
-
-# Run
-ENTRYPOINT ["/usr/bin/cowsaid"]
+ENTRYPOINT ["/bin/cowsaid"]
 

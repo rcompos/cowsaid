@@ -19,7 +19,7 @@ src/log.txt
 .vscode
 
 # Go
-cowsaid
 go.mod
 go.sum
+cowsaid
 
