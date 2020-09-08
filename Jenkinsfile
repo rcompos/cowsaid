@@ -1,5 +1,13 @@
 pipeline {
-    agent any
+    //agent any
+    agent {
+        // Equivalent to "docker build -f Dockerfile ."
+        dockerfile {
+            filename 'Dockerfile'
+            dir '.'
+        }
+    }
+
     stages {
         stage('setenv') {
           steps {
@@ -21,15 +29,6 @@ pipeline {
             //        args '-v /tmp:/tmp'
             //    }
             //}
-
-            agent {
-                // Equivalent to "docker build -f Dockerfile ."
-                dockerfile {
-                    filename 'Dockerfile'
-                    dir '.'
-                    label 'not-sure-what-kind-of-label-this-is'
-                }
-            }
 
             //steps {
             //    sh 'echo "***  STAGE BUILD  ***"'
