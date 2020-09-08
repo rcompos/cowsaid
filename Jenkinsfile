@@ -16,6 +16,7 @@ pipeline {
                     echo "Beginning build"
                     pwd
                     ls -lah
+                    which docker
                     docker build -t rcompos/cowsaid:${env.GIT_REF} .
                 '''
             }
