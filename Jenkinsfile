@@ -1,21 +1,34 @@
 pipeline {
     agent any
     stages {
-        stage('Build') {
+        stage('setenv') {
+          steps {
+            script {
+              env.GIT_BRANCH_NAME=sh(returnStdout: true, script: "git rev-parse --abbrev-ref HEAD").trim()
+              env.GIT_REF=sh(returnStdout: true, script: "git rev-parse HEAD").trim()
+            }
+          }
+        }
+        stage('build') {
             steps {
-                sh 'echo "Stage BUILD"'
-                sh 'echo "Hello World"'
+                sh 'echo "***  STAGE BUILD  ***"'
                 sh '''
-                    echo "Multiline shell steps works too"
+                    echo "Beginning build"
+                    pwd
                     ls -lah
+                    docker build -t rcompos/cowsaid:${env.GIT_REF} .
                 '''
             }
         }
-        stage('Test') {
+        stage('test') {
             steps {
-                sh 'echo "Stage TEST"'
-                sh 'pwd'
+                sh 'echo "***  STAGE TEST  ***"'
                 sh 'ls -AlF'
+            }
+        }
+        stage('publish') {
+            steps {
+                sh 'echo "***  STAGE PUBLISH  ***"'
             }
         }
     }
