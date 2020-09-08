@@ -10,15 +10,35 @@ pipeline {
           }
         }
         stage('build') {
-            steps {
-                sh 'echo "***  STAGE BUILD  ***"'
-                sh '''
-                    echo "Beginning build"
-                    pwd
-                    ls -lah
-                    docker version
-                '''
+
+            //agent {
+            //    // Equivalent to "docker build -f Dockerfile.build --build-arg version=1.0.2 ./build/
+            //    dockerfile {
+            //        filename 'Dockerfile.build'
+            //        dir 'build'
+            //        label 'my-defined-label'
+            //        additionalBuildArgs  '--build-arg version=1.0.2'
+            //        args '-v /tmp:/tmp'
+            //    }
+            //}
+
+            agent {
+                // Equivalent to "docker build -f Dockerfile ."
+                dockerfile {
+                    filename 'Dockerfile'
+                    dir '.'
+                    label 'not-sure-what-kind-of-label-this-is'
+                }
             }
+
+            //steps {
+            //    sh 'echo "***  STAGE BUILD  ***"'
+            //    sh '''
+            //        echo "Beginning build"
+            //        pwd
+            //        ls -lah
+            //    '''
+            //}
         }
         stage('test') {
             steps {
