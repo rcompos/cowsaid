@@ -40,8 +40,6 @@ pipeline {
                     pwd
                     ls -lah
                 '''
-                sh 'apt-get update && apt-get install -y docker.io'
-                sh 'docker version'
             }
         }
         stage('test') {
