@@ -18,6 +18,7 @@ src/log.txt
 # Misc
 .vscode
 *~
+*.swp
 
 # Go
 go.mod
