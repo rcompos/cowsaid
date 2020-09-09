@@ -5,6 +5,7 @@ pipeline {
     stages {
         stage('Test') {
             steps {
+                sh 'apt-get update && apt-get install -y docker.io'
                 sh 'node --version'
             }
         }
