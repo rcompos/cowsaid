@@ -11,8 +11,7 @@ labels:
   component: ci
 spec:
   # Use service account that can deploy to all namespaces
-  #serviceAccountName: cd-jenkins
-  serviceAccountName: 344542659264-compute@developer.gserviceaccount.com
+  serviceAccountName: jenkins
   containers:
   - name: maven
     image: maven:latest
