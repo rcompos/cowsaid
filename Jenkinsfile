@@ -1,4 +1,10 @@
 pipeline {
+    environment { 
+        registry = "rcompos/cowsaid" 
+        //registryCredential = 'dockerhub_id' 
+        dockerImage = '' 
+    }
+
     agent any
     //agent { dockerfile true }
 
@@ -12,6 +18,8 @@ pipeline {
           }
         }
         stage('build') {
+
+            steps {
 
             //agent {
             //    // Equivalent to "docker build -f Dockerfile.build --build-arg version=1.0.2 ./build/
@@ -32,8 +40,10 @@ pipeline {
             //    }
             //}
 
+                script { 
+                    dockerImage = docker.build registry + ":$BUILD_NUMBER" 
+                }
 
-            steps {
                 sh 'echo "***  STAGE BUILD  ***"'
                 sh '''
                     echo "Beginning build"
