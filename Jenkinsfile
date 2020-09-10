@@ -1,67 +1,71 @@
 pipeline {
-    environment { 
-        registry = "rcompos/cowsaid" 
-        //registryCredential = 'dockerhub_id' 
-        dockerImage = '' 
+  agent {
+    kubernetes {
+      label 'spring-petclinic-demo'
+      defaultContainer 'jnlp'
+      yaml """
+apiVersion: v1
+kind: Pod
+metadata:
+labels:
+  component: ci
+spec:
+  # Use service account that can deploy to all namespaces
+  serviceAccountName: cd-jenkins
+  containers:
+  - name: maven
+    image: maven:latest
+    command:
+    - cat
+    tty: true
+    volumeMounts:
+      - mountPath: "/root/.m2"
+        name: m2
+  - name: docker
+    image: docker:latest
+    command:
+    - cat
+    tty: true
+    volumeMounts:
+    - mountPath: /var/run/docker.sock
+      name: docker-sock
+  volumes:
+    - name: docker-sock
+      hostPath:
+        path: /var/run/docker.sock
+    - name: m2
+      persistentVolumeClaim:
+        claimName: m2
+"""
+}
+   }
+  stages {
+    stage('Build') {
+      steps {
+        container('maven') {
+          sh """
+                        mvn package -DskipTests
+                                                """
+        }
+      }
     }
-
-    agent any
-    //agent { dockerfile true }
-
-    stages {
-        stage('setenv') {
-          steps {
-            script {
-              env.GIT_BRANCH_NAME=sh(returnStdout: true, script: "git rev-parse --abbrev-ref HEAD").trim()
-              env.GIT_REF=sh(returnStdout: true, script: "git rev-parse HEAD").trim()
-            }
-          }
+    stage('Test') {
+      steps {
+        container('maven') {
+          sh """
+             mvn test
+          """
         }
-        stage('build') {
-
-            steps {
-
-            //agent {
-            //    // Equivalent to "docker build -f Dockerfile.build --build-arg version=1.0.2 ./build/
-            //    dockerfile {
-            //        filename 'Dockerfile.build'
-            //        dir 'build'
-            //        label 'my-defined-label'
-            //        additionalBuildArgs  '--build-arg version=1.0.2'
-            //        args '-v /tmp:/tmp'
-            //    }
-            //}
-
-            //agent {
-            //    // Equivalent to "docker build -f Dockerfile ."
-            //    dockerfile {
-            //        filename 'Dockerfile'
-            //        dir '.'
-            //    }
-            //}
-
-                script { 
-                    dockerImage = docker.build registry + ":$BUILD_NUMBER" 
-                }
-
-                sh 'echo "***  STAGE BUILD  ***"'
-                sh '''
-                    echo "Beginning build"
-                    pwd
-                    ls -lah
-                '''
-            }
-        }
-        stage('test') {
-            steps {
-                sh 'echo "***  STAGE TEST  ***"'
-                sh 'ls -AlF'
-            }
-        }
-        stage('publish') {
-            steps {
-                sh 'echo "***  STAGE PUBLISH  ***"'
-            }
-        }
+      }
     }
+    stage('Push') {
+      steps {
+        container('docker') {
+          sh """
+             docker build -t spring-petclinic-demo:$BUILD_NUMBER .
+          """
+        }
+      }
+    }
+  }
 }
