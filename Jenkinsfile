@@ -24,8 +24,9 @@ spec:
     - mountPath: /var/run/docker.sock
       name: docker-sock
   - name: ubuntu-argocd
-    #image: rcompos/ubuntu-argocd:latest
-    image: ubuntu:latest
+    image: rcompos/ubuntu-argocd:latest
+    imagePullPolicy: Always
+    #image: ubuntu:latest
   volumes:
     - name: docker-sock
       hostPath:
