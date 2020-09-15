@@ -68,6 +68,7 @@ spec:
       steps {
         container('ubuntu-argocd') {
           sh """
+             echo "Deploying with ArgoCD"
              argocd version
           """
         }
