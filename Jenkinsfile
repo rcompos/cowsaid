@@ -25,8 +25,6 @@ spec:
       name: docker-sock
   - name: ubuntu-argocd
     image: rcompos/ubuntu-argocd:latest
-    command:
-    - cat
     tty: true
   volumes:
     - name: docker-sock
