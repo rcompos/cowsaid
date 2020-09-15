@@ -27,8 +27,8 @@ spec:
     #image: rcompos/ubuntu-argocd:latest
     image: ubuntu:latest
     command:
-    - sleep
-    - 3600
+    - sh
+    tty: true
   volumes:
     - name: docker-sock
       hostPath:
