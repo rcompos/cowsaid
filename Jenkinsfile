@@ -13,14 +13,8 @@ spec:
   # Use service account that can deploy to all namespaces
   serviceAccountName: jenkins
   containers:
-  - name: maven
-    image: maven:latest
-    command:
-    - cat
-    tty: true
-    #volumeMounts:
-    #  - mountPath: "/root/.m2"
-    #    name: m2
+  - name: cowsaid 
+    image: rcompos/cowsaid:latest
   - name: docker
     image: docker:latest
     command:
@@ -33,27 +27,24 @@ spec:
     - name: docker-sock
       hostPath:
         path: /var/run/docker.sock
-    #- name: m2
-    #  persistentVolumeClaim:
-    #    claimName: m2
 """
 }
    }
   stages {
     stage('Build') {
       steps {
-        container('maven') {
+        container('cowsaid') {
           sh """
-                        mvn package -DskipTests
-                                                """
+              echo "Greetings and salutations!"          
+          """
         }
       }
     }
     stage('Test') {
       steps {
-        container('maven') {
+        container('cowsaid') {
           sh """
-             mvn test
+             echo "Looking good..."
           """
         }
       }
@@ -62,7 +53,8 @@ spec:
       steps {
         container('docker') {
           sh """
-             docker build -t spring-petclinic-demo:$BUILD_NUMBER .
+             #docker build -t spring-petclinic-demo:$BUILD_NUMBER .
+             docker images
           """
         }
       }
