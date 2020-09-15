@@ -23,9 +23,8 @@ spec:
     volumeMounts:
     - mountPath: /var/run/docker.sock
       name: docker-sock
-  - name: ubuntu-argocd
-    #image: rcompos/ubuntu-argocd:latest
-    image: ubuntu:latest
+  #- name: ubuntu-argocd
+  #  image: rcompos/ubuntu-argocd:latest
   volumes:
     - name: docker-sock
       hostPath:
@@ -64,7 +63,7 @@ spec:
     }
     stage('Deploy') {
       steps {
-        container('ubuntu-argocd') {
+        container('docker') {
           sh """
              echo "Deploying with ArgoCD"
              #argocd version
