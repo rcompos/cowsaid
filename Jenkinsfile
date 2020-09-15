@@ -15,27 +15,14 @@ spec:
   containers:
   - name: cowsaid 
     image: rcompos/cowsaid:latest
-  #- name: docker
-  #  image: docker:latest
-  #  command:
-  #  - cat
-  #  tty: true
-  #  volumeMounts:
-  #  - mountPath: /var/run/docker.sock
-  #    name: docker-sock
   - name: testing
-    #image: rcompos/ubuntu-argocd:latest
     image: docker:latest
     command:
     - cat
     tty: true
-  #volumes:
-  #  - name: docker-sock
-  #    hostPath:
-  #      path: /var/run/docker.sock
 """
 }
-   }
+  }
   stages {
     stage('Build') {
       steps {
@@ -55,22 +42,11 @@ spec:
         }
       }
     }
-    //stage('Push') {
-    //  steps {
-    //    container('docker') {
-    //      sh """
-    //         #docker build -t spring-petclinic-demo:$BUILD_NUMBER .
-    //         docker images
-    //      """
-    //    }
-    //  }
-    //}
     stage('Deploy') {
       steps {
         container('testing') {
           sh """
              echo "Deploying with ArgoCD"
-             #argocd version
           """
         }
       }
