@@ -55,16 +55,16 @@ spec:
         }
       }
     }
-    #stage('Push') {
-    #  steps {
-    #    container('docker') {
-    #      sh """
-    #         #docker build -t spring-petclinic-demo:$BUILD_NUMBER .
-    #         docker images
-    #      """
-    #    }
-    #  }
-    #}
+    //stage('Push') {
+    //  steps {
+    //    container('docker') {
+    //      sh """
+    //         #docker build -t spring-petclinic-demo:$BUILD_NUMBER .
+    //         docker images
+    //      """
+    //    }
+    //  }
+    //}
     stage('Deploy') {
       steps {
         container('testing') {
