@@ -25,6 +25,8 @@ spec:
       name: docker-sock
   - name: ubuntu-argocd
     image: rcompos/ubuntu-argocd:latest
+    command:
+    - cat
     imagePullPolicy: Always
     #image: ubuntu:latest
     tty: true
