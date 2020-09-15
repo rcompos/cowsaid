@@ -27,6 +27,7 @@ spec:
     image: rcompos/ubuntu-argocd:latest
     imagePullPolicy: Always
     #image: ubuntu:latest
+    tty: true
   volumes:
     - name: docker-sock
       hostPath:
