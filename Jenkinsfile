@@ -23,6 +23,11 @@ spec:
     volumeMounts:
     - mountPath: /var/run/docker.sock
       name: docker-sock
+  - name: ubuntu-argocd
+    image: rcompos/ubuntu-argocd:latest
+    command:
+    - cat
+    tty: true
   volumes:
     - name: docker-sock
       hostPath:
@@ -55,6 +60,15 @@ spec:
           sh """
              #docker build -t spring-petclinic-demo:$BUILD_NUMBER .
              docker images
+          """
+        }
+      }
+    }
+    stage('Deploy') {
+      steps {
+        container('ubuntu-argocd') {
+          sh """
+             argocd version
           """
         }
       }
