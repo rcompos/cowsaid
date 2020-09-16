@@ -30,6 +30,7 @@ spec:
     stage('Build') {
       steps {
         container('cowsaid') {
+          checkout scm
           sh """
               echo "Greetings and salutations!"          
           """
