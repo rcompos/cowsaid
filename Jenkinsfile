@@ -15,8 +15,8 @@ spec:
   containers:
   - name: cowsaid 
     image: rcompos/cowsaid:latest
-  - name: argo
-    image: rcompos/ubuntu-argocd:latest
+  - name: boulder 
+    image: ubuntu:latest
     command:
     - cat
     tty: true
@@ -47,9 +47,9 @@ spec:
     }
     stage('Deploy') {
       steps {
-        container('argo') {
+        container('boulder') {
           sh """
-             echo "Deploying with ArgoCD"
+             echo "Hello. We are deploying now."
           """
         }
       }
