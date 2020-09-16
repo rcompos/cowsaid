@@ -1,7 +1,7 @@
 pipeline {
   agent {
     kubernetes {
-      label 'spring-petclinic-demo'
+      label 'argocd-client'
       defaultContainer 'jnlp'
       yaml """
 apiVersion: v1
@@ -53,6 +53,9 @@ spec:
           """
         }
       }
+    }
+    stage('Cleanup') {
+      cleanWs()
     }
   }
 }
