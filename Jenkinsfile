@@ -16,7 +16,8 @@ spec:
   - name: cowsaid 
     image: rcompos/cowsaid:latest
   - name: eoulder 
-    image: rcompos/ubuntu-argocd:latest
+    #image: rcompos/ubuntu-argocd:latest
+    image: docker:latest
     command:
     - cat
     tty: true
