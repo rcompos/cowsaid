@@ -16,7 +16,7 @@ spec:
   - name: cowsaid 
     image: rcompos/cowsaid:latest
   - name: boulder 
-    image: ubuntu:latest
+    image: docker:latest
     command:
     - cat
     tty: true
