@@ -15,7 +15,7 @@ spec:
   containers:
   - name: cowsaid 
     image: rcompos/cowsaid:latest
-  - name: boulder 
+  - name: doulder 
     image: docker:latest
     command:
     - cat
@@ -44,7 +44,7 @@ spec:
     }
     stage('Deploy') {
       steps {
-        container('boulder') {
+        container('doulder') {
           sh """
              echo "Hello. We are deploying now."
           """
