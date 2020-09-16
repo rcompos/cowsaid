@@ -50,7 +50,6 @@ spec:
         container('argo') {
           sh """
              echo "Deploying with ArgoCD"
-             // /usr/local/bin/argocd version
           """
         }
       }
