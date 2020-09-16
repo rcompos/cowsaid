@@ -38,7 +38,7 @@ spec:
       steps {
         container('cowsaid') {
           sh """
-             echo "Looking good 6:50"
+             echo "Tesing:  success"
           """
         }
       }
