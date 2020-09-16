@@ -1,12 +1,10 @@
 pipeline {
-  agent any
-  stages {
-    stage('Desperation') {
-      steps {
-        sh """
-          echo "Greetings and salutations!"          
-        """
-      }
+    agent { docker { image 'golang' } }
+    stages {
+        stage('build') {
+            steps {
+                sh 'go version'
+            }
+        }
     }
-  }
 }
