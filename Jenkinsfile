@@ -15,12 +15,14 @@ spec:
   containers:
   - name: cowsaid 
     image: rcompos/cowsaid:latest
-  - name: goulder 
+  - name: houlder 
     image: rcompos/ubuntu-argocd:latest
-    #image: docker:latest
     command:
     - cat
     tty: true
+    stdin: true
+    stdout: true
+    stderr: true
 """
 }
   }
@@ -45,7 +47,7 @@ spec:
     }
     stage('Deploy') {
       steps {
-        container('goulder') {
+        container('houlder') {
           sh """
              echo "Hello. We are deploying now."
           """
