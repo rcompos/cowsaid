@@ -20,9 +20,9 @@ spec:
     command:
     - cat
     tty: true
-    stdin: true
-    stdout: true
-    stderr: true
+    #stdin: true
+    #stdout: true
+    #stderr: true
 """
 }
   }
