@@ -1,7 +1,5 @@
 pipeline {
   agent any
-}
-  }
   stages {
     stage('Desperation') {
       steps {
