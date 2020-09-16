@@ -54,8 +54,5 @@ spec:
         }
       }
     }
-    stage('Cleanup') {
-      cleanWs()
-    }
   }
 }
