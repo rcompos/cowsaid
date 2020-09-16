@@ -15,7 +15,7 @@ spec:
   containers:
   - name: cowsaid 
     image: rcompos/cowsaid:latest
-  - name: joulder 
+  - name: koulder 
     image: rcompos/ubuntu-argocd:latest
     command:
     - cat
@@ -47,10 +47,10 @@ spec:
     }
     stage('Deploy') {
       steps {
-        container('joulder') {
+        container('koulder') {
           sh """
              echo "Nothing can stop our deploying now!"
-			 /usr/local/bin/argocd version
+			 #/usr/local/bin/argocd version
           """
         }
       }
