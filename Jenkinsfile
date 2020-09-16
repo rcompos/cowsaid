@@ -20,9 +20,6 @@ spec:
     command:
     - cat
     tty: true
-    #stdin: true
-    #stdout: true
-    #stderr: true
 """
 }
   }
@@ -40,7 +37,7 @@ spec:
       steps {
         container('cowsaid') {
           sh """
-             echo "Looking good..."
+             echo "Looking good 6:50"
           """
         }
       }
