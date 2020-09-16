@@ -15,8 +15,8 @@ spec:
   containers:
   - name: cowsaid 
     image: rcompos/cowsaid:latest
-  - name: doulder 
-    image: docker:latest
+  - name: eoulder 
+    image: rcompos/ubuntu-argocd:latest
     command:
     - cat
     tty: true
@@ -44,7 +44,7 @@ spec:
     }
     stage('Deploy') {
       steps {
-        container('doulder') {
+        container('eoulder') {
           sh """
              echo "Hello. We are deploying now."
           """
