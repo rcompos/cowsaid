@@ -15,7 +15,7 @@ spec:
   containers:
   - name: cowsaid 
     image: rcompos/cowsaid:latest
-  - name: eoulder 
+  - name: foulder 
     #image: rcompos/ubuntu-argocd:latest
     image: docker:latest
     command:
@@ -45,7 +45,7 @@ spec:
     }
     stage('Deploy') {
       steps {
-        container('eoulder') {
+        container('foulder') {
           sh """
              echo "Hello. We are deploying now."
           """
