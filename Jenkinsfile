@@ -1,7 +1,7 @@
 pipeline {
   agent {
     kubernetes {
-      label 'argocd-client-alpha'
+      label 'argocd-client-beta'
       defaultContainer 'jnlp'
       yaml """
 apiVersion: v1
@@ -51,7 +51,7 @@ spec:
           """
           withKubeConfig(caCertificate: '', clusterName: '', contextName: '', credentialsId: 'jenkins-kubernetes-cli', namespace: 'cowsaid', serverUrl: 'https://kubernetes.default') {
             // some block
-            kubectl version
+            sh "kubectl version"
           }
           sh """
              echo "Nothing can stop our deploying now!"
