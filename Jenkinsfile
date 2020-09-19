@@ -1,7 +1,7 @@
 pipeline {
   agent {
     kubernetes {
-      label 'argocd-client-0003'
+      label 'argocd-client-0004'
       defaultContainer 'jnlp'
       yaml """
 apiVersion: v1
@@ -52,6 +52,8 @@ spec:
           """
           withKubeConfig(caCertificate: '', clusterName: '', contextName: '', credentialsId: 'jenkins-kubernetes-cli', namespace: 'cowsaid', serverUrl: 'https://kubernetes.default') {
             // some block
+            sh "echo LISTING ENV"
+            sh "env"
             sh "/usr/local/bin/argocd version"
           }
           sh """
