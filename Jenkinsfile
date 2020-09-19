@@ -1,7 +1,7 @@
 pipeline {
   agent {
     kubernetes {
-      label 'argocd-client-beta'
+      label 'argocd-client-0003'
       defaultContainer 'jnlp'
       yaml """
 apiVersion: v1
