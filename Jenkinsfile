@@ -36,6 +36,19 @@ spec:
 }
    }
   stages {
+    stage('checkout') {
+      steps {
+        //checkout scm
+        script {
+          env.GIT_BRANCH_NAME=sh(returnStdout: true, script: "git rev-parse --abbrev-ref HEAD").trim()
+          env.GIT_REF=sh(returnStdout: true, script: "git rev-parse HEAD").trim()
+        }
+        //slackSend (
+        //  message: "Deploy (${env.GIT_BRANCH_NAME}: ${env.GIT_REF}) - Starting deploy...",
+        //  color: "#6067f1"
+        //)
+      }
+    }
     stage('Build') {
       steps {
         container('docker') {
