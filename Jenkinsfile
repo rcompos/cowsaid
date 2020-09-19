@@ -60,7 +60,6 @@ spec:
     }
     stage('Deploy') {
       steps {
-        // Tag and push docker image(s)
         container('docker') {
           sh """
              echo "Tag image"
