@@ -1,7 +1,7 @@
 pipeline {
   agent {
     kubernetes {
-      label 'cowsaid-agent-00002'
+      label 'cowsaid-agent-00003'
       defaultContainer 'jnlp'
       yaml """
 apiVersion: v1
@@ -36,7 +36,7 @@ spec:
 }
    }
   stages {
-    stage('checkout') {
+    stage('Pre') {
       steps {
         //checkout scm
         script {
@@ -83,7 +83,7 @@ spec:
         }
       }
     }
-    stage('Clean-up') {
+    stage('Post') {
       steps {
         container('docker') {
           sh """
