@@ -47,8 +47,15 @@ spec:
       steps {
         container('ubuntu-argocd') {
           sh """
+             echo "Checking if nothing can stop our deploying now?"
+          """
+          withKubeConfig(caCertificate: '', clusterName: '', contextName: '', credentialsId: 'jenkins-kubernetes-cli', namespace: 'cowsaid', serverUrl: 'https://kubernetes.default') {
+            // some block
+            kubectl version
+          }
+          sh """
              echo "Nothing can stop our deploying now!"
-			 ls -AlF /usr/local/bin/argocd 
+             ls -AlF /usr/local/bin/argocd 
           """
         }
       }
