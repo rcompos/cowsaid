@@ -38,13 +38,9 @@ spec:
   stages {
     stage('Build') {
       steps {
-        container('docker') {
+        container('cowsaid') {
           sh """
-             echo "Build docker temp image"          
-             docker version
-             #docker tag hellobloom/my-image.temp hellobloom/my-image.temp:$GIT_REF
-             echo "Push docker temp image"          
-             #docker image push hellobloom/my-image.temp:$GIT_REF
+              echo "Greetings and salutations!"          
           """
         }
       }
@@ -58,25 +54,23 @@ spec:
         }
       }
     }
-    stage('Deploy') {
+    stage('Push') {
       steps {
-        // Tag and push docker image(s)
+        // Use docker container
         container('docker') {
           sh """
-             echo "Tag image"
-             #docker tag hellobloom/my-image hellobloom/my-image:$GIT_REF
-             echo "Push image"
-             #docker push hellobloom/my-image:$GIT_REF
+             #docker build -t spring-petclinic-demo:$BUILD_NUMBER .
+             docker images
           """
         }
       }
     }
-    stage('Clean-up') {
+    stage('Deploy') {
       steps {
-        container('docker') {
+        container('testing') {
           sh """
-             echo "Delete temp images."
-             #docker image rm hellobloom/my-image.temp:$GIT_REF
+             echo "Deploying with ArgoCD"
+             #argocd version
           """
         }
       }
