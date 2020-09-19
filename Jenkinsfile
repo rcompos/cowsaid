@@ -1,7 +1,7 @@
 pipeline {
   agent {
     kubernetes {
-      label 'cowsaid-agent-00001'
+      label 'cowsaid-agent-00002'
       defaultContainer 'jnlp'
       yaml """
 apiVersion: v1
