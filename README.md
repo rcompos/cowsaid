@@ -82,11 +82,11 @@ To run Cowsaid as a Docker container, follow these steps to build the image.
 
 2. __Build the Docker image.__
 
-        $ docker build -t cowsaid .
+        $ docker build -t cowsaid . -f ./build/package/Dockerfile
 
 		OR
 
-        $ docker buildx build --platform linux/amd64 -t cowsaid -f ./build/package/Dockerfile .
+        $ docker buildx build --platform linux/amd64 -t cowsaid . -f ./build/package/Dockerfile
 
 3. __Run the newly built image.__
 
