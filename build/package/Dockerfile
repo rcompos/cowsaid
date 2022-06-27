@@ -1,14 +1,20 @@
-FROM golang:1.13 as build
+FROM golang:1.18 as build
 WORKDIR /build
 COPY . .
-RUN GO111MODULE=on GOOS=linux GOARCH=amd64 CGO_ENABLED=0 go build -o cowsaid ./cowsaid.go
+RUN GO111MODULE=on GOOS=linux GOARCH=amd64 CGO_ENABLED=0 go build -o cowsaid ./cmd/cowsaid/main.go
 
-FROM alpine:latest
+FROM ubuntu:latest
 LABEL maintainer="Ron Compos <rcompos@gmail.com>"
 COPY --from=build /build/cowsaid /bin
-RUN apk add fortune
+
+RUN apt-get update && apt-get install -y \
+    cowsay \
+    fortunes \
+    && rm -rf /var/lib/apt/lists/*
+
+ENV PATH="/usr/games:${PATH}"
+
 COPY fortunes-alt /usr/share/fortunes-alt
 RUN cd /usr/share/fortunes-alt; for f in `find . -type d | grep -v '^.$'`; do echo $f; strfile $f/$f $f/$f.dat; done
 EXPOSE 80
 ENTRYPOINT ["/bin/cowsaid"]
-
